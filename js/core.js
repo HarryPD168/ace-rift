@@ -360,7 +360,7 @@
         const img = new Image();
         img.onload = () => { left -= 1; if (left <= 0) this.ready = true; };
         img.onerror = () => { left -= 1; };
-        img.src = map[key];
+        img.src = (AR.SPRITE_DATA && AR.SPRITE_DATA[key]) || map[key];
         this[key] = img;
       });
     },
