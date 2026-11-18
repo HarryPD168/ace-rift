@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="王牌裂隙" />
+  <meta name="theme-color" content="#0a241c" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="color-scheme" content="dark" />
+  <title>王牌裂隙 · 撕角廣場 — Ace Rift</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><text y='52' font-size='52'>♠</text></svg>" />
+</head>
+<body>
+  <div id="wrap">
+    <div id="stage">
+      <canvas id="game" width="1280" height="720" tabindex="0" aria-label="王牌裂隙遊戲畫面"></canvas>
+    </div>
+
+    <div id="touch-ui" class="touch-ui" hidden>
+      <div class="touch-sys" id="touch-sys">
+        <button type="button" class="tbtn tbtn-sys" id="btn-pause" data-press="Escape" aria-label="暫停">暫停</button>
+        <button type="button" class="tbtn tbtn-sys" id="btn-mute" data-press="KeyM" aria-label="靜音">靜音</button>
+        <button type="button" class="tbtn tbtn-sys" id="btn-help" data-press="KeyH" aria-label="說明">說明</button>
+        <button type="button" class="tbtn tbtn-sys" id="btn-retry" data-press="KeyR" aria-label="重試">重試</button>
+      </div>
+
+      <div class="touch-status" id="touch-status">
+        <div class="touch-hp">
+          <div class="touch-label">鬼牌　Joker</div>
+          <div class="touch-bar"><i id="hp-fill"></i></div>
+          <div class="touch-bar-text" id="hp-text">100 / 100</div>
+        </div>
+        <div class="touch-power" id="touch-power">
+          <div class="touch-label" id="power-label">牌力值</div>
+          <div class="touch-bar power"><i id="power-fill"></i></div>
+        </div>
+      </div>
+
+      <div class="touch-msg" id="touch-msg" hidden></div>
+      <div class="touch-preview" id="touch-preview"></div>
+      <div class="touch-hand" id="touch-hand" aria-label="手牌"></div>
+
+      <div class="touch-pads">
+        <div class="touch-move" id="touch-move" role="group" aria-label="圓形方向鍵">
+          <div class="stick-base" aria-hidden="true">
+            <span class="stick-arrow stick-arrow-up">▲</span>
+            <span class="stick-arrow stick-arrow-down">▼</span>
+            <span class="stick-arrow stick-arrow-left">◀</span>
+            <span class="stick-arrow stick-arrow-right">▶</span>
+            <div class="stick-ring"></div>
+            <div class="stick-knob" id="stick-knob"></div>
+          </div>
+          <button type="button" class="tbtn tbtn-move tbtn-up" id="btn-up" tabindex="-1" aria-label="向上跳躍">上</button>
+          <button type="button" class="tbtn tbtn-move tbtn-left" id="btn-left" tabindex="-1" aria-label="向左移動">左</button>
+          <button type="button" class="tbtn tbtn-move tbtn-right" id="btn-right" tabindex="-1" aria-label="向右移動">右</button>
+          <button type="button" class="tbtn tbtn-move tbtn-down" id="btn-down" tabindex="-1" aria-label="向下互動">下</button>
+        </div>
+        <div class="touch-actions">
+          <button type="button" class="tbtn tbtn-sub" id="btn-wild" data-press="KeyQ" aria-label="百搭">百搭<span class="tbtn-k" id="wild-count">3/3</span></button>
+          <button type="button" class="tbtn tbtn-sub" id="btn-joker" data-press="KeyK" aria-label="Joker Time">Joker<span class="tbtn-k">牌力</span></button>
+          <button type="button" class="tbtn tbtn-sub" id="btn-shuffle" aria-label="洗牌">洗牌<span class="tbtn-k">T</span></button>
+          <button type="button" class="tbtn tbtn-sub" id="btn-interact" data-press="KeyE" aria-label="互動">互動<span class="tbtn-k">開箱</span></button>
+          <button type="button" class="tbtn tbtn-play" id="btn-play" data-press="KeyJ" aria-label="出牌">出牌</button>
+          <button type="button" class="tbtn tbtn-jump" id="btn-jump" data-hold="Space" aria-label="跳躍">跳</button>
+        </div>
+      </div>
+
+      <div class="touch-brand" id="touch-brand" hidden>
+        <div class="tb-sub">♠　當紙牌成為世界的法則　♠</div>
+        <h1>王牌裂隙</h1>
+        <div class="tb-en">ACE RIFT</div>
+        <div class="tb-stage">第一關　·　撕角廣場</div>
+      </div>
+      <div class="touch-copy" id="touch-copy" hidden></div>
+
+      <div class="touch-menu" id="touch-menu">
+        <button type="button" class="tbtn tbtn-menu tbtn-primary" id="m-start">開始遊戲</button>
+        <button type="button" class="tbtn tbtn-menu" id="m-howto">操作說明</button>
+        <button type="button" class="tbtn tbtn-menu tbtn-primary" id="m-resume">繼續遊戲</button>
+        <button type="button" class="tbtn tbtn-menu tbtn-primary" id="m-continue">繼續</button>
+        <button type="button" class="tbtn tbtn-menu" id="m-skip">跳過開場</button>
+        <button type="button" class="tbtn tbtn-menu" id="m-prev">上一頁</button>
+        <button type="button" class="tbtn tbtn-menu tbtn-primary" id="m-next">下一頁</button>
+        <button type="button" class="tbtn tbtn-menu" id="m-back">返回</button>
+        <button type="button" class="tbtn tbtn-menu tbtn-primary" id="m-retry">從檢查點重試</button>
+        <button type="button" class="tbtn tbtn-menu tbtn-primary" id="m-again">再闖一次</button>
+        <button type="button" class="tbtn tbtn-menu" id="m-title">返回標題</button>
+      </div>
+    </div>
+  </div>
+  <noscript>請啟用 JavaScript 以遊玩《王牌裂隙》。</noscript>
+  <script src="js/core.js"></script>
+  <script src="js/cards.js"></script>
+  <script src="js/world.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/touch-ui.js"></script>
+</body>
+</html>
